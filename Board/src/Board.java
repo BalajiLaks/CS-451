@@ -6,6 +6,11 @@ import java.util.LinkedList;
  */
 
 public class Board {
+	private static final char red = 'r';
+	private static final char redKing = 'R';
+	private static final char black = 'b';
+	private static final char blackKing = 'B';
+	private static final char empty = '-';
 
 	private double sqrt2, sqrt8;
 	private char turn;
@@ -19,19 +24,63 @@ public class Board {
 		board = new char[8][8];
 		sqrt2 = Math.sqrt(2);
 		sqrt8 = Math.sqrt(8);
-		turn = 'r';
 		this.reset();
 	}
 
-	public void switchTurn() {
-		if (turn == 'r') {
-			turn = 'b';
-		}
-		else {
-			turn = 'r';
+	public void reset() {
+		turn = black;
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (i < 3) {
+					if (i == 0 || i == 2) {
+						if (j % 2 == 0) {
+							board[i][j] = empty;
+						} else {
+							board[i][j] = black;
+						}
+					}
+					else {
+						if (j % 2 == 0) {
+							board[i][j] = black;
+						} else {
+							board[i][j] = empty;
+						}
+					}
+				}
+				else if (i < 5) {
+					board[i][j] = empty;
+				}
+				else {
+					if (i == 5 || i == 7) {
+						if (j % 2 == 0) {
+							board[i][j] = red;
+						} else {
+							board[i][j] = empty;
+						}
+					}
+					else {
+						if (j % 2 == 0) {
+							board[i][j] = empty;
+						} else {
+							board[i][j] = red;
+						}
+					}
+				}
+			}
+
 		}
 	}
 
+	public void switchTurn() {
+		if (turn == red) {
+			turn = black;
+		}
+		else {
+			turn = red;
+		}
+	}
+
+	// only call after validating move
 	public void makeMove(Move move) throws MoveException{
 		Point start = move.getStartPosition();
 		Point end = move.getEndPosition();
@@ -43,35 +92,45 @@ public class Board {
 		}
 
 		char c = board[start.x][start.y];
-		if (c != 'r' && c != 'R' && c != 'B' && c != 'b') {
+		if (c != red && c != 'R' && c != blackKing && c != black) {
 			System.out.println(c);
 			System.out.println(start.toString());
 			throw new MoveException("Tried to move from location with no piece");
 		}
-		else if (c == 'r' && start.x == 0) {
-			c = 'R';
+		else if (Character.toLowerCase(c) != turn) {
+			throw new MoveException(String.format("Turn violation"));
 		}
-		else if (c == 'b' && start.x == 7){
-			c = 'B';
+		else if (c == red && end.x == 0) {
+			c = redKing;
+		}
+		else if (c == black && end.x == 7){
+			c = blackKing;
 		}
 
-		board[start.x][start.y] = 'E';
+		board[start.x][start.y] = empty;
 		board[end.x][end.y] = c;
 
 		if (distance == sqrt8) {
 			if (start.x > end.x && start.y > end.y) {
-				board[start.x-1][start.y-1] = 'E';
+				board[start.x-1][start.y-1] = empty;
 			}
 			else if (start.x > end.x && start.y < end.y) {
-				board[start.x-1][start.y+1] = 'E';
+				board[start.x-1][start.y+1] = empty;
 			}
 			else if (start.x < end.x && start.y < end.y) {
-				board[start.x+1][start.y+1] = 'E';
+				board[start.x+1][start.y+1] = empty;
 			}
 			else if (start.x < end.x && start.y > end.y) {
-				board[start.x+1][start.y-1] = 'E';
+				board[start.x+1][start.y-1] = empty;
 			}
 		}
+
+	}
+
+	// only call after validating move
+	public void makeMoveSequence (LinkedList<Move> moves) throws MoveException{
+		for (Move move : moves)
+			makeMove(move);
 
 	}
 
@@ -79,68 +138,143 @@ public class Board {
 		if (moves.size() == 0) {
 			return false;
 		}
-		for (Move move : moves) {
-			if (!isValidMove(move))
+		else if (moves.size() == 0){
+			Point start = moves.get(0).getStartPosition();
+			Point end = moves.get(0).getEndPosition();
+			if (start.distance(end) != sqrt2)
 				return false;
+			else
+				return isValidMove(moves.get(0));
+		}
+		else {
+			for (int i =0; i< moves.size(); i++) {
+				Point start = moves.get(i).getStartPosition();
+				Point end = moves.get(i).getEndPosition();
+				if (start.distance(end) != sqrt8)
+					return false;
+				else {
+					if (i == moves.size() - 1){
+						if (!isValidEndMove(moves.get(i)))
+							return false;
+					}
+					else if (!isValidMove(moves.get(i)))
+						return false;
+				}
+			}
 		}
 		return true;
 	}
 
 	/**
-	 * Returns whether a given move is valid
-	 * @param move the move to be checked
-	 * @return whether move is determined to be valid
+	 * Returns whether a given move is valid without within rules of checkers besides
+	 * for checking if the move should fail because more jumps can be made
+	 * @param move the move being checked
+	 * @return whether move is valid in this context
 	 */
 	public boolean isValidMove(Move move) {
 		Point start = move.getStartPosition();
 		Point end = move.getEndPosition();
 		double distance  = Move.distance(start, end);
-		if (board[start.x][start.y] != turn) { //not moving your own piece
+		if (Character.toLowerCase(board[start.x][start.y]) != turn) { //not moving your own piece
 			return false;
 		}
-		else if (distance != sqrt2 && distance != sqrt8 && distance == 0) { //invalid move distances
+		if (board[end.x][end.y] != empty) { //end location isn't empty
 			return false;
 		}
+		else if (distance != sqrt2 && distance != sqrt8) { //invalid move distances
+			return false;
+		}
+		else if (board[start.x][start.y] == red && start.x < end.x 		//disallow non-king pieces from
+				|| board[start.x][start.y] == black && end.x < start.x) { //moving in wrong direction
+			return false;
+		}
+		else if (distance == sqrt8) {
+			//stop players from jumping over their own pieces or empty locations
+			if (start.x > end.x && start.y > end.y) {
+				if (board[start.x-1][start.y-1] == empty
+						|| Character.toLowerCase(board[start.x-1][start.y-1]) == turn)
+					return false;
+			}
+			else if (start.x > end.x && start.y < end.y) {
+				if (board[start.x-1][start.y+1] == empty
+						|| Character.toLowerCase(board[start.x-1][start.y+1]) == turn)
+					return false;
+			}
+			else if (start.x < end.x && start.y < end.y) {
+				if (board[start.x+1][start.y+1] == empty
+						|| Character.toLowerCase(board[start.x+1][start.y+1]) == turn)
+					return false;
+			}
+			else if (start.x < end.x && start.y > end.y) {
+				if (board[start.x+1][start.y-1] == empty
+						|| Character.toLowerCase(board[start.x+1][start.y-1]) == turn)
+					return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Returns whether a given move is valid without within rules of checkers including
+	 * for checking if the move should fail because more jumps can be made
+	 * @param move the move being checked
+	 * @return whether move is valid in this context
+	 */
+	public boolean isValidEndMove(Move move) {
+		if (!isValidMove(move))
+			return false;
 		else {
-			if (distance == sqrt2) {
-				if (start.x < end.x && start.y == end.y || start.x > end.x && start.y == end.y //invalid locations
-						|| start.y < end.y && start.x == end.x || start.y > end.y && start.x == end.x) {
+			Point start = move.getStartPosition();
+			Point end = move.getEndPosition();
+
+			//check if there are still moves the player can make
+			if (board[start.x][start.y] == red) {
+				if (Character.toLowerCase(board[end.x-1][end.y-1]) == black
+						&& board[end.x-2][end.y-2] == empty)
 					return false;
-				}
-				else if (board[start.x][start.y] == 'r' && start.x < end.x 		//disallow non-king pieces from
-						|| board[start.x][start.y] == 'b' && end.x < start.x) { //moving in wrong direction
-					return false;
-				}
-				else if (board[end.x][end.y] == 'E') //end location isn't empty
-					return false;
-			}
-			else if (distance == sqrt8) {
-				//stop players from jumping over their own pieces or empty locations
-				if (start.x > end.x && start.y > end.y) {
-					if (board[start.x-1][start.y-1] == 'E' ||
-							Character.toLowerCase(board[start.x-1][start.y-1]) == turn)
-						return false;
-				}
-				else if (start.x > end.x && start.y < end.y) {
-					if (board[start.x-1][start.y+1] == 'E' ||
-							Character.toLowerCase(board[start.x-1][start.y+1]) == turn)
-						return false;
-				}
-				else if (start.x < end.x && start.y < end.y) {
-					if (board[start.x+1][start.y+1] == 'E' ||
-							Character.toLowerCase(board[start.x+1][start.y+1]) == turn)
-						return false;
-				}
-				else if (start.x < end.x && start.y > end.y) {
-					if (board[start.x+1][start.y-1] == 'E' ||
-							Character.toLowerCase(board[start.x+1][start.y-1]) == turn)
-						return false;
-				}
-				if (board[end.x][end.y] != 'E') //end location isn't empty
+				else if (Character.toLowerCase(board[end.x-1][end.y+1]) == black
+						&& board[end.x-2][end.y+2] == empty)
 					return false;
 			}
-			return true;
+			else if (board[start.x][start.y] == black) {
+				if (Character.toLowerCase(board[end.x+1][end.y+1]) == red
+						&& board[end.x+2][end.y+2] == empty)
+					return false;
+				else if (Character.toLowerCase(board[end.x+1][end.y-1]) == red
+						&& board[end.x+2][end.y-2] == empty)
+					return false;
+			}
+			else if (board[start.x][start.y] == redKing) {
+				if (Character.toLowerCase(board[end.x+1][end.y+1]) == black
+						&& board[end.x+2][end.y+2] == empty)
+					return false;
+				else if (Character.toLowerCase(board[end.x+1][end.y-1]) == black
+						&& board[end.x+2][end.y-2] == empty)
+					return false;
+				else if (Character.toLowerCase(board[end.x+1][end.y+1]) == black
+						&& board[end.x+2][end.y+2] == empty)
+					return false;
+				else if (Character.toLowerCase(board[end.x+1][end.y-1]) == black
+						&& board[end.x+2][end.y-2] == empty)
+					return false;
+
+			}
+			else if (board[start.x][start.y] == blackKing) {
+				if (Character.toLowerCase(board[end.x+1][end.y+1]) == red
+						&& board[end.x+2][end.y+2] == empty)
+					return false;
+				else if (Character.toLowerCase(board[end.x+1][end.y-1]) == red
+						&& board[end.x+2][end.y-2] == empty)
+					return false;
+				else if (Character.toLowerCase(board[end.x+1][end.y+1]) == red
+						&& board[end.x+2][end.y+2] == empty)
+					return false;
+				else if (Character.toLowerCase(board[end.x+1][end.y-1]) == red
+						&& board[end.x+2][end.y-2] == empty)
+					return false;
+			}
 		}
+		return true;
 	}
 
 	public void printBoard() {
@@ -154,47 +288,6 @@ public class Board {
 		}
 	}
 
-	private void reset() {
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				if (i < 3) {
-					if (i == 0 || i == 2) {
-						if (j % 2 == 0) {
-							board[i][j] = 'E';
-						} else {
-							board[i][j] = 'b';
-						}
-					}
-					else {
-						if (j % 2 == 0) {
-							board[i][j] = 'b';
-						} else {
-							board[i][j] = 'E';
-						}
-					}
-				}
-				else if (i < 5) {
-					board[i][j] = 'E';
-				}
-				else {
-					if (i == 5 || i == 7) {
-						if (j % 2 == 0) {
-							board[i][j] = 'r';
-						} else {
-							board[i][j] = 'E';
-						}
-					}
-					else {
-						if (j % 2 == 0) {
-							board[i][j] = 'E';
-						} else {
-							board[i][j] = 'r';
-						}
-					}
-				}
-			}
 
-		}
-	}
 
 }
