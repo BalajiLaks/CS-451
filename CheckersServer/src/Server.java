@@ -28,9 +28,11 @@ public class Server {
             ObjectInputStream receiveObject2 = player2.getObjectInput();
 
             Board gameBoard = new Board();
-            gameBoard.setStatus("Player1");
             sendObject1.writeObject(gameBoard);
             gameBoard = (Board)receiveObject1.readObject();
+            sendObject2.writeObject(gameBoard);
+            gameBoard = (Board)receiveObject2.readObject();
+            gameBoard.printBoard();
 
             TimeUnit.SECONDS.sleep(10);
             //sendObject2.writeObject(gameBoard);

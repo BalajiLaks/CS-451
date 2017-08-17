@@ -22,25 +22,19 @@ public class Client {
             ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
             while (true)
             {
-                //try{
-                    testBoard = (Board) is.readObject();
-                //}
-                //catch(SocketException e)
-                //{
-                //    System.out.println("Message not sent to me");
-                //    break;
-                //}
-                if (testBoard.getStatus().equals("Player1"))
-                {
-                    System.out.println(testBoard.getStatus());
-                    testBoard.setStatus("Player2");
-                    os.writeObject(testBoard);
+                testBoard = (Board) is.readObject();
+                Move move;
+                if (testBoard.getTurn() == 'r') {
+                    move = new Move(5, 0, 4, 1);
                 }
-                else if (testBoard.getStatus().equals("Player2"))
+                else
                 {
-                    System.out.println(testBoard.getStatus());
-                    testBoard.setStatus("Player1");
+                    move = new Move(2, 1, 3, 2);
                 }
+                testBoard.makeMove(move);
+                testBoard.switchTurn();
+                os.writeObject(testBoard);
+                testBoard.printBoard();
                 break;
             }
         }
