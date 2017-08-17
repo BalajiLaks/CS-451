@@ -80,6 +80,7 @@ public class Board {
 		}
 	}
 
+	// only call after validating move
 	public void makeMove(Move move) throws MoveException{
 		Point start = move.getStartPosition();
 		Point end = move.getEndPosition();
@@ -126,6 +127,13 @@ public class Board {
 
 	}
 
+	// only call after validating move
+	public void makeMoveSequence (LinkedList<Move> moves) throws MoveException{
+		for (Move move : moves)
+			makeMove(move);
+
+	}
+
 	public boolean isValidMoveSequence(LinkedList<Move> moves) {
 		if (moves.size() == 0) {
 			return false;
@@ -139,11 +147,19 @@ public class Board {
 				return isValidMove(moves.get(0));
 		}
 		else {
-			for (Move move : moves) {
-				Point start = move.getStartPosition();
-				Point end = move.getEndPosition();
-				if (start.distance(end) != sqrt8 || !isValidMove(move))
+			for (int i =0; i< moves.size(); i++) {
+				Point start = moves.get(i).getStartPosition();
+				Point end = moves.get(i).getEndPosition();
+				if (start.distance(end) != sqrt8)
 					return false;
+				else {
+					if (i == moves.size() - 1){
+						if (!isValidEndMove(moves.get(i)))
+							return false;
+					}
+					else if (!isValidMove(moves.get(i)))
+						return false;
+				}
 			}
 		}
 		return true;
