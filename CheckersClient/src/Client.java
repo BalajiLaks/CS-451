@@ -20,9 +20,12 @@ public class Client {
             PrintStream out = new PrintStream(socket.getOutputStream());
             ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
-            while (true)
+            View view = new View();
+            boolean GameOn = true;
+            while (GameOn)
             {
                 testBoard = (Board) is.readObject();
+                view.updateView(testBoard);
                 Move move;
                 if (testBoard.getTurn() == 'r') {
                     move = new Move(5, 0, 4, 1);
@@ -35,7 +38,7 @@ public class Client {
                 testBoard.switchTurn();
                 os.writeObject(testBoard);
                 testBoard.printBoard();
-                break;
+                GameOn = false;
             }
         }
         catch (Exception e)
