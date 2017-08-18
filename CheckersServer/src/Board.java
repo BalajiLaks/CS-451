@@ -6,7 +6,7 @@ import java.util.LinkedList;
  * Created by bmix1 on 8/14/2017.
  */
 
-public class Board implements Serializable {
+public class Board implements Serializable{
     private static final char red = 'r';
     private static final char redKing = 'R';
     private static final char black = 'b';
@@ -16,6 +16,13 @@ public class Board implements Serializable {
     private double sqrt2, sqrt8;
     private char turn;
     private char[][] board;
+
+    public char[][] getBoard()
+    {
+        return this.board;
+    }
+
+    public char getTurn(){ return this.turn; }
 
     public class MoveException extends Exception {
         public MoveException(String message) { super(message); }
@@ -79,10 +86,6 @@ public class Board implements Serializable {
         else {
             turn = red;
         }
-    }
-
-    public char getTurn() {
-        return turn;
     }
 
     // only call after validating move

@@ -37,6 +37,7 @@ public class Client {
                 testBoard.makeMove(move);
                 testBoard.switchTurn();
                 os.writeObject(testBoard);
+                view.updateView(testBoard);
                 testBoard.printBoard();
                 GameOn = false;
             }

@@ -17,6 +17,13 @@ public class Board implements Serializable{
     private char turn;
     private char[][] board;
 
+    public char[][] getBoard()
+    {
+        return this.board;
+    }
+
+    public char getTurn(){ return this.turn; }
+
     public class MoveException extends Exception {
         public MoveException(String message) { super(message); }
     }
@@ -79,10 +86,6 @@ public class Board implements Serializable{
         else {
             turn = red;
         }
-    }
-
-    public char getTurn() {
-        return turn;
     }
 
     // only call after validating move
