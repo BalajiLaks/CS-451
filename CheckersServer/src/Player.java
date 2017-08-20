@@ -3,6 +3,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
 
 public class Player {
@@ -53,7 +54,7 @@ public class Player {
         this.mySocket = mySocket;
     }
 
-    Player(Socket clientSocket)
+    public Player(Socket clientSocket)
     {
         this.setMySocket(clientSocket);
         try
@@ -66,6 +67,27 @@ public class Player {
         catch (IOException e)
         {
             System.out.println(e);
+        }
+    }
+
+    public boolean isConnected()
+    {
+        try{
+            //String check = stringInput.next();
+            objectOutput.writeObject("Testing");
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean sendConnectionSuccess()
+    {
+        try{
+            objectOutput.writeObject("Connected");
+            return true;
+        }catch (Exception e) {
+            return false;
         }
     }
 }
