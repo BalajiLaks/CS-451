@@ -2,80 +2,113 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.Time;
 import java.util.Scanner;
 
 public class Client {
 
     private static View view;
-    private static Scanner stringInput = null;
-    private static PrintStream stringOutput = null;
-    private static ObjectOutputStream objectOutput = null;
-    private static ObjectInputStream objectInput = null;
-    private static Board testBoard = new Board();
-    public static char myPieceColor;
+    private static ObjectOutputStream out = null;
+    private static ObjectInputStream in = null;
+    private static Board board = new Board();
+
 
     public static void main(String[] args)
     {
         Board testBoard = new Board();
         view = new View();
-        view.updateView(testBoard);
-        //wait for connect button to be clicked
     }
+
+	static Thread runGame = new Thread(new Runnable() {
+		@Override
+		public void run() {
+			try {
+				char color = 'b';
+				view.removeConnectButton();
+				Socket socket = new Socket("localhost", 1234);
+				out = new ObjectOutputStream(socket.getOutputStream());
+				in = new ObjectInputStream(socket.getInputStream());
+
+				boolean hasQuit = false;
+
+				//update board first time
+
+				while (!hasQuit) {
+					Object obj = (Object) in.readObject();
+					if (obj.getClass() == String.class) {
+						String s = (String) obj;
+						if (s.equals("waitscreen")) {
+							color = 'r';
+							view.changeStatus("Waiting for other client to connect...");
+						//	out.writeObject("still waiting");
+						}
+						else
+							System.out.println(s);
+					}
+					else if (obj.getClass() == Board.class) {
+						view.updateView(board);
+						view.changeStatus(String.copyValueOf(new char[]{color}));
+						//out.writeObject("assss");
+						//if it is my turn, show buttons
+					}
+					System.out.println(color);
+
+					//sleep a lol
+					Thread.sleep(1000);
+				}
+
+			}
+			catch (Exception e)
+			{
+				System.out.println(e);
+				view.changeStatus("Cannot connect to game at this time.");
+			}
+
+		}
+	});
 
     public static void connectButtonClicked()
     {
-        try {
-            view.removeConnectButton();         //connect only once
-            InetAddress address = InetAddress.getByName("localhost");
-            Socket socket = new Socket(address, 2017);
-            stringInput = new Scanner(socket.getInputStream());
-            stringOutput = new PrintStream(socket.getOutputStream());
-            objectOutput = new ObjectOutputStream(socket.getOutputStream());
-            objectInput = new ObjectInputStream(socket.getInputStream());
-            boolean connection = false;
-            while (!connection)
-            {
-                String testConnection  = (String) objectInput.readObject();
-                String temp = testConnection;
-                if (testConnection.equals("Connected"))
-                {
-                    connection = true;
-                }
-            }
-            startGame();
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-            view.changeStatus("Cannot connect to game at this time.");
-        }
+		runGame.start();
     }
 
     public static void startGame()
     {
-        try {
-            boolean GameOn = true;
-            while (GameOn) {
-                testBoard = (Board) objectInput.readObject();
-                view.updateView(testBoard);
-                Move move;
-                myPieceColor = testBoard.getTurn();
-                if (myPieceColor == 'r') {
-                    move = new Move(5, 0, 4, 1);
-                } else {
-                    move = new Move(2, 1, 3, 2);
-                }
-                testBoard.makeMove(move);
-                testBoard.switchTurn();
-                objectOutput.writeObject(testBoard);
-                view.updateView(testBoard);
-                testBoard.printBoard();
-                GameOn = false;
-            }
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-        }
+		try {
+			//view.removeConnectButton();
+			Socket socket = new Socket("localhost", 1234);
+			out = new ObjectOutputStream(socket.getOutputStream());
+			in = new ObjectInputStream(socket.getInputStream());
+
+			boolean hasQuit = false;
+
+			//update board first time
+
+			while (!hasQuit) {
+				Object obj = (Object) in.readObject();
+				if (obj.getClass() == String.class) {
+					String s = (String) obj;
+					if (s == "waitscreen") {
+						//color = 'r';
+						view.changeStatus("Waiting for other client to connect...");
+						out.writeObject("still here");
+					}
+					else
+						System.out.println(s);
+				}
+				else if (obj.getClass() == Board.class) {
+					view.updateView(board);
+					out.writeObject("fuck you");
+					//if it is my turn, show buttons
+				}
+				//sleep a lol
+			}
+
+		}
+		catch (Exception e)
+		{
+			System.out.println(e);
+			view.changeStatus("Cannot connect to game at this time.");
+		}
     }
 }

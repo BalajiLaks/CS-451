@@ -75,7 +75,7 @@ public class Game {
             {
                 System.out.print(e);
             }
-            gameBoard.printBoard();
+            gameBoard.print();
             break;
         }
 
