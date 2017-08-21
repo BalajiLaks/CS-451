@@ -2,32 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96153e0d-46e7-43d6-bb18-b9416eec62af" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/CheckersClient/Client$1.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/ServerThread.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../CheckersServer/.idea/kotlinc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../CheckersServer/src/BoardTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../CheckersServer/src/ServerThread.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CheckersClient/Board$MoveException.class" afterPath="$PROJECT_DIR$/out/production/CheckersClient/Board$MoveException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CheckersClient/Board.class" afterPath="$PROJECT_DIR$/out/production/CheckersClient/Board.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CheckersClient/Client.class" afterPath="$PROJECT_DIR$/out/production/CheckersClient/Client.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CheckersClient/View$1.class" afterPath="$PROJECT_DIR$/out/production/CheckersClient/View$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CheckersClient/View.class" afterPath="$PROJECT_DIR$/out/production/CheckersClient/View.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/Board$MoveException.class" afterPath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/Board$MoveException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/Board.class" afterPath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/Board.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/Game.class" afterPath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/Game.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/Server.class" afterPath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/Server.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/ServerThread.class" afterPath="$PROJECT_DIR$/../CheckersServer/out/production/CheckersServer/ServerThread.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Board.java" afterPath="$PROJECT_DIR$/src/Board.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Client.java" afterPath="$PROJECT_DIR$/src/Client.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/View.java" afterPath="$PROJECT_DIR$/src/View.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/.idea/misc.xml" afterPath="$PROJECT_DIR$/../CheckersServer/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../CheckersServer/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/src/Board.java" afterPath="$PROJECT_DIR$/../CheckersServer/src/Board.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/src/Game.java" afterPath="$PROJECT_DIR$/../CheckersServer/src/Game.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/src/Server.java" afterPath="$PROJECT_DIR$/../CheckersServer/src/Server.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/src/ServerThread.java" afterPath="$PROJECT_DIR$/../CheckersServer/src/ServerThread.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,6 +16,9 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/CheckersClient$Client.coverage" NAME="Client Coverage Results" MODIFIED="1503335957558" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
@@ -152,8 +135,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="704" />
-    <option name="width" value="903" />
+    <option name="x" value="786" />
+    <option name="width" value="821" />
     <option name="height" value="867" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -514,8 +497,7 @@
     <option name="totallyTimeSpent" value="19891000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="704" y="0" width="903" height="867" extended-state="1" />
-    <editor active="true" />
+    <frame x="786" y="0" width="821" height="867" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -528,11 +510,12 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32364598" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32888147" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18827508" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20745341" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />

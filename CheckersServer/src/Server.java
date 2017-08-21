@@ -18,24 +18,37 @@ public class Server {
         Socket sock = null;
         while (true) {
             sock = ssocket.accept();
-            if (clients.size() == 0) {
+			System.out.println(clients.size());
+			if (clients.size() == 0) {
 				System.out.println("Connected: " + sock.getInetAddress());
 				clients.add(new Thread(new ServerThread(sock)));
 				clients.get(0).start();
 
 			}
 			else if (clients.size() == 1) {
-				System.out.println("Connected: " + sock.getInetAddress());
-				clients.add(new Thread(new ServerThread(sock)));
-				clients.get(1).start();
+            	if (clients.get(0).isAlive()) {
+					System.out.println("Connected: " + sock.getInetAddress());
+					clients.add(new Thread(new ServerThread(sock)));
+					clients.get(1).start();
 
-				for (Thread client : clients) {
-					client.join();
+					for (Thread client : clients) {
+						client.join();
+					}
+					for (Socket s : socks) {
+						sock.close();
+					}
+					clients.clear();
 				}
-				for(Socket s : socks) {
-					sock.close();
+				else {
+					System.out.println("heeey");
+					for (Socket s : socks) {
+						sock.close();
+					}
+					clients.clear();
+					clients.add(new Thread(new ServerThread(sock)));
+					clients.get(0).start();
 				}
-				clients.clear();
+
 			}
 			else {
 				System.out.println("Rejected: " + sock.getInetAddress());

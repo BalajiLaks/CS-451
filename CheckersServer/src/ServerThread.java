@@ -24,6 +24,7 @@ public class ServerThread implements Runnable{
 			out.flush();
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			numConnected.getAndAdd(1);
+
 			do {
 
 				if (numConnected.get() == 1) {
