@@ -1,17 +1,34 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class View {
 
     private JFrame _frame;
+    private JPanel _container;
+    private JPanel _statusPanel;
     private JPanel _panel;
+    private JButton _connectButton;
+    private JLabel _statusLabel;
     private JButton[][] _buttonArray = new JButton[8][8];
+
+    public JLabel get_statusLabel()
+    {
+        return this._statusLabel;
+    }
 
     public View()
     {
         _frame = new JFrame("Checkers Game");
         _panel = new JPanel();
+        _container = new JPanel();
+        _statusPanel = new JPanel();
+        _connectButton = new JButton("Connect");
+        _statusLabel = new JLabel("");
+
+        //set up the board
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
@@ -32,8 +49,22 @@ public class View {
             }
         }
 
+        _container.setLayout(new BoxLayout(_container, BoxLayout.Y_AXIS));
+        _connectButton.setFocusPainted(false);
+        _connectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Client.connectButtonClicked();
+            }
+        });
+
+        _statusPanel.add(_connectButton);
+        _statusPanel.add(_statusLabel);
+        _container.add(_statusPanel);
+
         _panel.setLayout(new GridLayout(8, 8));
-        _frame.add(_panel);
+        _container.add(_panel);
+        _frame.add(_container);
         _frame.pack();
         _frame.setLocationRelativeTo(null);
         _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,5 +106,15 @@ public class View {
         }
 
         _frame.pack();
+    }
+
+    public void removeConnectButton()
+    {
+        _statusPanel.remove(_connectButton);
+    }
+
+    public void changeStatus(String status)
+    {
+        _statusLabel.setText(status);
     }
 }
