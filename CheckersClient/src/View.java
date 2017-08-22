@@ -1,8 +1,11 @@
+import sun.awt.image.ImageWatched;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 public class View {
 
@@ -12,17 +15,20 @@ public class View {
 	private JPanel _panel;
 	private JButton _connectButton;
 	private JButton _submitMoveButton;
+	private JButton _clearButton;
 	private JLabel _statusLabel;
-	private JButton[][] _buttonArray = new JButton[8][8];
+	private JButton[][] _buttonArray;
 
 	public View()
 	{
+		_buttonArray = new JButton[8][8];
 		_frame = new JFrame("Checkers Game");
 		_panel = new JPanel();
 		_container = new JPanel();
 		_statusPanel = new JPanel();
 		_connectButton = new JButton("Connect");
 		_submitMoveButton = new JButton("Submit Move");
+		_clearButton = new JButton("Clear Move");
 		_statusLabel = new JLabel("");
 
 		//set up the board
@@ -42,13 +48,9 @@ public class View {
 				{
 					_buttonArray[i][j].setBackground(Color.WHITE);
 				}
-				//Adding action listener to the buttons
-				_buttonArray[i][j].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						Point buttonIndex = findButtonLocation((JButton) e.getSource());
-						Client.gameButtonClicked(buttonIndex);
-					}
+				_buttonArray[i][j].addActionListener(e -> {
+					Point buttonIndex = findButtonLocation((JButton) e.getSource());
+					Client.gameButtonClicked(buttonIndex);
 				});
 				_panel.add(_buttonArray[i][j]);
 			}
@@ -58,25 +60,14 @@ public class View {
 		_container.setLayout(new BoxLayout(_container, BoxLayout.Y_AXIS));
 		_connectButton.setFocusPainted(false);
 
-		//add action listener to connect button
-		_connectButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Client.connectButtonClicked();
-			}
-		});
-
-		//add action handler for submit move button
-		_submitMoveButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Client.submitButtonClicked();
-			}
-		});
+		_connectButton.addActionListener(e -> Client.connectButtonClicked());
+		_clearButton.addActionListener(e -> Client.clearButtonClicked());
+		_submitMoveButton.addActionListener(e -> Client.submitButtonClicked());
 
 		_statusPanel.add(_connectButton);
 		_statusPanel.add(_statusLabel);
 		_statusPanel.add(_submitMoveButton);
+		_statusPanel.add(_clearButton);
 		_container.add(_statusPanel);
 
 		_panel.setLayout(new GridLayout(8, 8));
@@ -100,6 +91,14 @@ public class View {
 			}
 		}
 		return null;
+	}
+
+	public Color getPositionBGColor(Point p){
+		return _buttonArray[p.x][p.y].getBackground();
+	}
+
+	public void setPositionBGColor(Point p, Color c){
+		 _buttonArray[p.x][p.y].setBackground(c);
 	}
 
 	//Updates the UI with the latest board
@@ -150,13 +149,15 @@ public class View {
 		return this._submitMoveButton.isVisible();
 	}
 
-	public void hideSubmitMoveButton() {
+	public void hideMoveButtons() {
 		this._submitMoveButton.setVisible(false);
+		this._clearButton.setVisible(false);
 	}
 
-	public void showSubmitMoveButton()
+	public void showMoveButtons()
 	{
 		this._submitMoveButton.setVisible(true);
+		this._clearButton.setVisible(true);
 	}
 
 	//change status of the UI at the top

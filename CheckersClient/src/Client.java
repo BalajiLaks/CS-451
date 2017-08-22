@@ -17,6 +17,7 @@ public class Client {
 	private static char color = 'b';
 	private static ConcurrentLinkedQueue<Move> moves = new ConcurrentLinkedQueue<Move>();
 	private static LinkedList<Point> points = new LinkedList<>();
+	private static LinkedList<Color> replaceColors = new LinkedList<Color>();; //colors to replace for pieces
 
     public static void main(String[] args)
     {
@@ -52,19 +53,17 @@ public class Client {
 						if (color == board.getTurn()) {
 							while (true) {
 								if (!view.submitButtonIsVisible()) {
-									view.showSubmitMoveButton();
+									view.showMoveButtons();
 								}
 								if (moves.size() != 0 ) {
 									MoveSequence moveSeq = new MoveSequence(getMoves());
 									if (!board.isValidMoveSequence(moveSeq)) {
 										view.showErrorMessage("Invalid move");
-										moves.clear();
-										points.clear();
+										clearMoveSequence();
 									}
 									else {
 										out.writeObject(moveSeq);
-										moves.clear();
-										points.clear();
+										clearMoveSequence();
 										break;
 									}
 								}
@@ -72,7 +71,7 @@ public class Client {
 						}
 						else {
 							if (view.submitButtonIsVisible()) {
-								view.hideSubmitMoveButton();
+								view.hideMoveButtons();
 							}
 							out.writeObject("ping");
 						}
@@ -81,7 +80,7 @@ public class Client {
 			}
 			catch (Exception e)
 			{
-				System.out.println(e);
+				e.printStackTrace();
 				view.changeStatus("Cannot connect to game at this time.");
 			}
 
@@ -105,8 +104,7 @@ public class Client {
 		if (points.size() < 2)
 		{
 			view.showErrorMessage("Invalid Move");
-			moves.clear();
-			points.clear();
+			clearMoveSequence();
 		}
 		else
 		{
@@ -122,10 +120,27 @@ public class Client {
 		}
 	}
 
+	private static void clearMoveSequence() {
+		for (int i = 0; i < replaceColors.size(); i++) {
+			Point p = points.get(i);
+			view.setPositionBGColor(p, replaceColors.get(i));
+		}
+		replaceColors.clear();
+		moves.clear();
+		points.clear();
+	}
+
+	public static void clearButtonClicked() {
+		clearMoveSequence();
+	}
+
 	public static void gameButtonClicked(Point point)
 	{
-		if (board.getTurn() == color)
+		if (board.getTurn() == color) {
 			points.add(point);
+			replaceColors.add(view.getPositionBGColor(point));
+			view.setPositionBGColor(point, Color.GREEN);
+		}
 	}
 
 	public static LinkedList<Move> getMoves() {
