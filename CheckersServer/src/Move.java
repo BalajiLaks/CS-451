@@ -1,9 +1,10 @@
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Created by bmix1 on 8/14/2017.
  */
-public class Move {
+public class Move implements Serializable {
     private Point startPosition;
     private Point endPosition;
 

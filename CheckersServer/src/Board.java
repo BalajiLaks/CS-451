@@ -97,7 +97,8 @@ public class Board implements Serializable {
         return sb.toString();
     }
 
-    public boolean isValidMoveSequence(LinkedList<Move> moves) {
+    public boolean isValidMoveSequence(MoveSequence moveSequence) {
+        LinkedList<Move> moves = moveSequence.getMoves();
         if (moves.size() == 0) {
             return false;
         }
@@ -139,7 +140,8 @@ public class Board implements Serializable {
     }
 
     // only call after validating move
-    public void doTurn (LinkedList<Move> moves) throws MoveException {
+    public void doTurn (MoveSequence moveSequence) throws MoveException {
+        LinkedList<Move> moves = moveSequence.getMoves();
         for (Move move : moves)
             makeMove(move);
 

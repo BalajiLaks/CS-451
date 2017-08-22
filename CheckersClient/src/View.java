@@ -11,14 +11,9 @@ public class View {
 	private JPanel _statusPanel;
 	private JPanel _panel;
 	private JButton _connectButton;
+	private JButton _submitMoveButton;
 	private JLabel _statusLabel;
 	private JButton[][] _buttonArray = new JButton[8][8];
-	private Client client;
-
-	public JLabel get_statusLabel()
-	{
-		return this._statusLabel;
-	}
 
 	public View()
 	{
@@ -27,6 +22,7 @@ public class View {
 		_container = new JPanel();
 		_statusPanel = new JPanel();
 		_connectButton = new JButton("Connect");
+		_submitMoveButton = new JButton("Submit Move");
 		_statusLabel = new JLabel("");
 
 		//set up the board
@@ -46,12 +42,23 @@ public class View {
 				{
 					_buttonArray[i][j].setBackground(Color.WHITE);
 				}
+				//Adding action listener to the buttons
+				_buttonArray[i][j].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Point buttonIndex = findButtonLocation((JButton) e.getSource());
+						Client.gameButtonClicked(buttonIndex);
+					}
+				});
 				_panel.add(_buttonArray[i][j]);
 			}
 		}
 
+		//set the top part of the UI
 		_container.setLayout(new BoxLayout(_container, BoxLayout.Y_AXIS));
 		_connectButton.setFocusPainted(false);
+
+		//add action listener to connect button
 		_connectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -59,8 +66,17 @@ public class View {
 			}
 		});
 
+		//add action handler for submit move button
+		_submitMoveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Client.submitButtonClicked();
+			}
+		});
+
 		_statusPanel.add(_connectButton);
 		_statusPanel.add(_statusLabel);
+		_statusPanel.add(_submitMoveButton);
 		_container.add(_statusPanel);
 
 		_panel.setLayout(new GridLayout(8, 8));
@@ -72,6 +88,21 @@ public class View {
 		_frame.setVisible(true);
 	}
 
+	//Find which button was clicked and return the index of it as a Point
+	public Point findButtonLocation(JButton button)
+	{
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (_buttonArray[i][j] == button)
+				{
+					return new Point(i,j);
+				}
+			}
+		}
+		return null;
+	}
+
+	//Updates the UI with the latest board
 	public void updateView(Board board)
 	{
 		for (int i = 0; i < 8; i++)
@@ -109,13 +140,32 @@ public class View {
 		_frame.pack();
 	}
 
+	//hide connect button since you can connect only once
 	public void removeConnectButton()
 	{
-		_statusPanel.remove(_connectButton);
+		this._connectButton.setVisible(false);
 	}
 
+	public boolean submitButtonIsVisible() {
+		return this._submitMoveButton.isVisible();
+	}
+
+	public void hideSubmitMoveButton() {
+		this._submitMoveButton.setVisible(false);
+	}
+
+	public void showSubmitMoveButton()
+	{
+		this._submitMoveButton.setVisible(true);
+	}
+
+	//change status of the UI at the top
 	public void changeStatus(String status)
 	{
 		_statusLabel.setText(status);
+	}
+
+	public void showErrorMessage(String s) {
+		JOptionPane.showMessageDialog(null, s);
 	}
 }
