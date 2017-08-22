@@ -97,6 +97,10 @@ public class Board implements Serializable {
         return sb.toString();
     }
 
+    public void print() {
+        System.out.println(this.toString());
+    }
+
     public boolean isValidMoveSequence(MoveSequence moveSequence) {
         LinkedList<Move> moves = moveSequence.getMoves();
         if (moves.size() == 0) {
@@ -368,9 +372,7 @@ public class Board implements Serializable {
             return black;
     }
 
-    public void print() {
-        System.out.println(this.toString());
-    }
+
 
 
 }

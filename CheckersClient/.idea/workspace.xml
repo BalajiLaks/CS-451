@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96153e0d-46e7-43d6-bb18-b9416eec62af" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/CheckersClient/View$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/CheckersClient/View$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/CheckersClient/View$3.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Client.java" afterPath="$PROJECT_DIR$/src/Client.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/View.java" afterPath="$PROJECT_DIR$/src/View.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../CheckersServer/src/Game.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../CheckersServer/src/Player.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../CheckersServer/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CheckersServer/src/Board.java" afterPath="$PROJECT_DIR$/../CheckersServer/src/Board.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,13 +34,16 @@
       <file leaf-file-name="Client.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="519">
-              <caret line="127" column="30" lean-forward="false" selection-start-line="127" selection-start-column="30" selection-end-line="127" selection-end-column="30" />
+            <state relative-caret-position="157">
+              <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding>
                 <element signature="e#553#559#0" expanded="true" />
                 <element signature="e#690#697#0" expanded="true" />
                 <element signature="e#781#782#0" expanded="true" />
                 <element signature="e#814#815#0" expanded="true" />
+                <element signature="class#857:2442" expanded="false" />
+                <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+                <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
                 <element signature="e#2766#2813#0" expanded="false" />
                 <element signature="e#3571#3572#0" expanded="true" />
                 <element signature="e#3597#3598#0" expanded="true" />
@@ -551,7 +552,7 @@
     <option name="totallyTimeSpent" value="19891000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="580" y="0" width="1027" height="867" extended-state="0" />
+    <frame x="580" y="0" width="1027" height="867" extended-state="1" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -562,7 +563,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31968296" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31968296" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32888147" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -674,6 +675,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -748,6 +752,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -822,6 +829,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -896,6 +906,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -949,6 +962,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -1003,6 +1019,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -1045,6 +1064,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -1126,6 +1148,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -1164,6 +1189,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -1218,6 +1246,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -1260,6 +1291,9 @@
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
@@ -1393,13 +1427,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="127" column="30" lean-forward="false" selection-start-line="127" selection-start-column="30" selection-end-line="127" selection-end-column="30" />
+        <state relative-caret-position="157">
+          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
             <element signature="e#553#559#0" expanded="true" />
             <element signature="e#690#697#0" expanded="true" />
             <element signature="e#781#782#0" expanded="true" />
             <element signature="e#814#815#0" expanded="true" />
+            <element signature="class#857:2442" expanded="false" />
+            <element signature="method#setStatus#0;class#Client#0" expanded="false" />
+            <element signature="method#submitButtonClicked#0;class#Client#0" expanded="false" />
             <element signature="e#2766#2813#0" expanded="false" />
             <element signature="e#3571#3572#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
