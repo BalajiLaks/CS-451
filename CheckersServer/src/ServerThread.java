@@ -30,9 +30,10 @@ public class ServerThread implements Runnable{
 			numConnected.getAndAdd(1);
 			do {
 
-				if (board.isWon()) {
+				if (isWon.get()) {
 					numConnected.getAndAdd(-1);
-					isWon.set(true);
+					if (numConnected.get() == 0)
+						isWon.set(false);
 				}
 				else if (hasForfeited.get()) {
 					System.out.println(numConnected.getAndAdd(-1));
@@ -48,13 +49,6 @@ public class ServerThread implements Runnable{
 						hasForfeited.set(false);
 					}
 				}
-//				else if (isWon.get()) {
-//					out.reset();
-//					out.writeObject(board);
-//					isWon.set(false);
-//					numConnected.getAndAdd(-1);
-//					board.reset();
-//				}
 				else if (numConnected.get() == 1) {
 					out.writeObject("waitscreen");
 					Thread.sleep(1000);
@@ -75,6 +69,9 @@ public class ServerThread implements Runnable{
 									out.reset();
 									out.writeObject(board);
 									isTurnOver.set(false);
+									if (isWon.get()) {
+										break;
+									}
 								}
 								else if (hasForfeited.get()) {
 									System.out.printf("Closing other connection");
@@ -96,12 +93,12 @@ public class ServerThread implements Runnable{
 								MoveSequence moves = (MoveSequence) obj;
 								if (board.isValidMoveSequence(moves)) {
 									board.doTurn(moves);
-									board.win();
 									out.reset();
 									out.writeObject(board);
 									isTurnOver.set(true);
 									if (board.isWon()) {
-										numConnected.getAndAdd(-1);
+										isWon.set(true);
+										break;
 									}
 								}
 							}

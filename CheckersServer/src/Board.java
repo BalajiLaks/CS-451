@@ -26,12 +26,12 @@ public class Board implements Serializable {
                         if (j % 2 == 0) {
                             board[i][j] = empty;
                         } else {
-                            board[i][j] = black;
+                            board[i][j] = red;
                         }
                     }
                     else {
                         if (j % 2 == 0) {
-                            board[i][j] = black;
+                            board[i][j] = red;
                         } else {
                             board[i][j] = empty;
                         }
