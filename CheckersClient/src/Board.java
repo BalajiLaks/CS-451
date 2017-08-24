@@ -36,6 +36,49 @@ public class Board implements Serializable {
         this.reset();
     }
 
+    public void win() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (i < 3) {
+                    if (i == 0 || i == 2) {
+                        if (j % 2 == 0) {
+                            board[i][j] = empty;
+                        } else {
+                            board[i][j] = black;
+                        }
+                    }
+                    else {
+                        if (j % 2 == 0) {
+                            board[i][j] = black;
+                        } else {
+                            board[i][j] = empty;
+                        }
+                    }
+                }
+                else if (i < 5) {
+                    board[i][j] = empty;
+                }
+                else {
+                    if (i == 5 || i == 7) {
+                        if (j % 2 == 0) {
+                            board[i][j] = empty;
+                        } else {
+                            board[i][j] = empty;
+                        }
+                    }
+                    else {
+                        if (j % 2 == 0) {
+                            board[i][j] = empty;
+                        } else {
+                            board[i][j] = empty;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
     public void reset() {
         turn = black;
         winner = "none";

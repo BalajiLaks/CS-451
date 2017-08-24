@@ -18,7 +18,6 @@ public class Server {
         Socket sock = null;
         while (true) {
             sock = ssocket.accept();
-			System.out.println(clients.size());
 			if (clients.size() == 0) {
 				System.out.println("Connected: " + sock.getInetAddress());
 				clients.add(new Thread(new ServerThread(sock)));
@@ -33,6 +32,7 @@ public class Server {
 
 					for (Thread client : clients) {
 						client.join();
+						System.out.println("done");
 					}
 					for (Socket s : socks) {
 						sock.close();
@@ -40,7 +40,6 @@ public class Server {
 					clients.clear();
 				}
 				else {
-					System.out.println("heeey");
 					for (Socket s : socks) {
 						sock.close();
 					}

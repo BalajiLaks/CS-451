@@ -22,70 +22,89 @@ public class Client {
     public static void main(String[] args)
     {
         view = new View();
+        view.hideMoveButtons();
     }
 
-	static Thread runGame = new Thread(new Runnable() {
-		@Override
-		public void run() {
-			try {
-				view.removeConnectButton();
-				Socket socket = new Socket("localhost", 1234);
-				out = new ObjectOutputStream(socket.getOutputStream());
-				in = new ObjectInputStream(socket.getInputStream());
+	static Thread runGame() {
+		return new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					view.hideConnectButton();
+					Socket socket = new Socket("localhost", 1234);
+					out = new ObjectOutputStream(socket.getOutputStream());
+					in = new ObjectInputStream(socket.getInputStream());
 
 
-				boolean hasQuit = false;
-				while (!hasQuit) {
-					System.out.println("waiting");
-					Object obj = (Object) in.readObject();
-					if (obj.getClass() == String.class) {
-						String s = (String) obj;
-						System.out.println(s);
-						if (s.equals("waitscreen")) {
-							color = 'r';
-							view.changeStatus("Waiting for other client to connect...");
-						}
-					}
-					else if (obj.getClass() == Board.class) {
-						board = (Board) obj;
-						view.updateView(board);
-						setStatus(color, board.getTurn());
-						if (color == board.getTurn()) {
-							while (true) {
-								if (!view.submitButtonIsVisible()) {
-									view.showMoveButtons();
-								}
-								if (moves.size() != 0 ) {
-									MoveSequence moveSeq = new MoveSequence(getMoves());
-									if (!board.isValidMoveSequence(moveSeq)) {
-										view.showErrorMessage("Invalid move");
-										clearMoveSequence();
-									}
-									else {
-										out.writeObject(moveSeq);
-										clearMoveSequence();
-										break;
-									}
-								}
+					boolean hasQuit = false;
+					while (!hasQuit) {
+						System.out.println("Wait");
+						Object obj = (Object) in.readObject();
+						if (obj.getClass() == String.class) {
+							String s = (String) obj;
+							if (s.equals("waitscreen")) {
+								color = 'r';
+								view.changeStatus("Waiting for other client to connect...");
 							}
-						}
-						else {
-							if (view.submitButtonIsVisible()) {
+							else if (s.equals(("forfeit"))) {
+								board.reset();
+								view.updateView(board);
+								view.showMessage("Other player forfeited");
 								view.hideMoveButtons();
+								view.changeStatus("");
+								view.showConnectButton();
+								break;
 							}
-							out.writeObject("ping");
+							else if (s.equals("ping")) {
+								out.writeObject("ping");
+							}
+						}
+						else if (obj.getClass() == Board.class) {
+							board = (Board) obj;
+
+							if (board.isWon()) {
+								view.showMessage(board.getWinner() + " won");
+								System.exit(0);
+								break;
+							}
+							view.updateView(board);
+							setStatus(color, board.getTurn());
+							if (color == board.getTurn()) {
+								while (true) {
+									if (!view.submitButtonIsVisible()) {
+										view.showMoveButtons();
+									}
+									if (moves.size() != 0) {
+										MoveSequence moveSeq = new MoveSequence(getMoves());
+										if (!board.isValidMoveSequence(moveSeq)) {
+											view.showMessage("Invalid move");
+											clearMoveSequence();
+										}
+										else {
+											out.writeObject(moveSeq);
+											clearMoveSequence();
+											break;
+										}
+									}
+								}
+							}
+							else {
+								if (view.submitButtonIsVisible()) {
+									view.hideMoveButtons();
+								}
+								out.writeObject("ping");
+							}
 						}
 					}
 				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-				view.changeStatus("Cannot connect to game at this time.");
-			}
+				catch (Exception e) {
+					e.printStackTrace();
+					view.changeStatus("Cannot connect to game at this time.");
+				}
 
-		}
-	});
+			}
+		});
+	}
 
     public static void setStatus(char color, char turn) {
 		view.changeStatus(String.format("You color: %s     Current turn: %s \n",
@@ -94,16 +113,15 @@ public class Client {
 
     public static void connectButtonClicked()
     {
-		runGame.start();
+		runGame().start();
     }
 
 	public static void submitButtonClicked() {
 		//create list of Moves using the list of points
 		//send the list of Moves to server
-		System.out.println(points.size());
 		if (points.size() < 2)
 		{
-			view.showErrorMessage("Invalid Move");
+			view.showMessage("Invalid Move");
 			clearMoveSequence();
 		}
 		else
@@ -149,5 +167,16 @@ public class Client {
 			moveList.add(m);
 		}
 		return moveList;
+	}
+
+	public static void sendForfeit() {
+		try {
+			System.out.println("e");
+			if (out != null)
+				out.writeObject("forfeit");
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

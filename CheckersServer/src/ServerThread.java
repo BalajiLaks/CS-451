@@ -29,23 +29,37 @@ public class ServerThread implements Runnable{
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			numConnected.getAndAdd(1);
 			do {
-				if (hasForfeited.get()) {
-					System.out.println("forfeit");
-					out.writeObject("forfeit");
-					hasForfeited.set(false);
+
+				if (board.isWon()) {
 					numConnected.getAndAdd(-1);
-					board.reset();
+					isWon.set(true);
 				}
-				else if (isWon.get()) {
-					System.out.println("game is won");
-					out.writeObject(board);
-					isWon.set(false);
-					numConnected.getAndAdd(-1);
-					board.reset();
+				else if (hasForfeited.get()) {
+					System.out.println(numConnected.getAndAdd(-1));
+					if (numConnected.get() == 2) {
+						numConnected.getAndAdd(-1);
+						break;
+					}
+					else {
+						System.out.printf("Closing other connection");
+						out.writeObject("forfeit");
+						if (!isWon.get())
+							board.reset();
+						hasForfeited.set(false);
+					}
 				}
+//				else if (isWon.get()) {
+//					out.reset();
+//					out.writeObject(board);
+//					isWon.set(false);
+//					numConnected.getAndAdd(-1);
+//					board.reset();
+//				}
 				else if (numConnected.get() == 1) {
 					out.writeObject("waitscreen");
 					Thread.sleep(1000);
+					if (!isWon.get())
+						board.reset();
 				}
 				else if (numConnected.get() == 2) {
 					out.writeObject(board);
@@ -53,28 +67,42 @@ public class ServerThread implements Runnable{
 						Object obj = (Object) in.readObject();
 						if (obj.getClass() == String.class) {
 							String s = (String) obj;
-							if (s.equals("forfeit")) {
-								numConnected.getAndAdd(-1);
-								hasForfeited.set(true);
-							}
-							else if(s.equals("ping")) {
-								while (!isTurnOver.get());
-								out.reset();
-								out.writeObject(board);
-								isTurnOver.set(false);
+							if(s.equals("ping")) {
+								if(!isTurnOver.get() && !hasForfeited.get()) {
+									out.writeObject("ping");
+								}
+								else if (isTurnOver.get()){
+									out.reset();
+									out.writeObject(board);
+									isTurnOver.set(false);
+								}
+								else if (hasForfeited.get()) {
+									System.out.printf("Closing other connection");
+									out.writeObject("forfeit");
+									numConnected.getAndAdd(-1);
+									hasForfeited.set(false);
+								}
 							}
 						}
 						else if (obj.getClass() == MoveSequence.class) {
-							MoveSequence moves = (MoveSequence) obj;
-							if (board.isValidMoveSequence(moves)) {
-								board.doTurn(moves);
-								isTurnOver.set(true);
-								out.reset();
-								out.writeObject(board);
-								if (board.isWon()) {
-									numConnected.getAndAdd(-1);
+							if (hasForfeited.get()) {
+								System.out.printf("Closing other connection");
+								out.writeObject("forfeit");
+								numConnected.getAndAdd(-1);
+								hasForfeited.set(false);
+								break;
+							}
+							else {
+								MoveSequence moves = (MoveSequence) obj;
+								if (board.isValidMoveSequence(moves)) {
+									board.doTurn(moves);
+									board.win();
+									out.reset();
 									out.writeObject(board);
-									isWon.set(true);
+									isTurnOver.set(true);
+									if (board.isWon()) {
+										numConnected.getAndAdd(-1);
+									}
 								}
 							}
 						}
@@ -86,7 +114,8 @@ public class ServerThread implements Runnable{
 			System.out.println("Connection to client lost");
 			if (numConnected.get() == 2)
 				hasForfeited.set(true);
-			numConnected.getAndAdd(-1);
+			if (numConnected.get() > 0)
+				numConnected.getAndAdd(-1);
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();

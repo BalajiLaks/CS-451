@@ -77,6 +77,13 @@ public class View {
 		_frame.setLocationRelativeTo(null);
 		_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		_frame.setVisible(true);
+
+		_frame.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				Client.sendForfeit();
+			}
+		});
 	}
 
 	//Find which button was clicked and return the index of it as a Point
@@ -140,9 +147,14 @@ public class View {
 	}
 
 	//hide connect button since you can connect only once
-	public void removeConnectButton()
+	public void hideConnectButton()
 	{
 		this._connectButton.setVisible(false);
+	}
+
+	public void showConnectButton()
+	{
+		this._connectButton.setVisible(true);
 	}
 
 	public boolean submitButtonIsVisible() {
@@ -166,7 +178,7 @@ public class View {
 		_statusLabel.setText(status);
 	}
 
-	public void showErrorMessage(String s) {
+	public void showMessage(String s) {
 		JOptionPane.showMessageDialog(null, s);
 	}
 }
