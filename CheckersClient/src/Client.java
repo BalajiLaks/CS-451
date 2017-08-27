@@ -38,7 +38,6 @@ public class Client {
 
 					boolean hasQuit = false;
 					while (!hasQuit) {
-						System.out.println("Wait");
 						Object obj = (Object) in.readObject();
 						if (obj.getClass() == String.class) {
 							String s = (String) obj;
@@ -64,7 +63,10 @@ public class Client {
 
 							if (board.isWon()) {
 								view.showMessage(board.getWinner() + " won");
-								System.exit(0);
+								view.hideMoveButtons();
+								view.changeStatus("");
+								view.showConnectButton();
+								board.reset();
 								break;
 							}
 							view.updateView(board);
@@ -107,8 +109,9 @@ public class Client {
 	}
 
     public static void setStatus(char color, char turn) {
-		view.changeStatus(String.format("You color: %s     Current turn: %s \n",
-				Character.toString(color), Character.toString(turn)));
+    	String playerColor = color == 'b' ? "black" : "red";
+		String turnColor = color == 'b' ? "black" : "red";
+		view.changeStatus(String.format("You color: %s     Current turn: %s \n", playerColor, turnColor));
 	}
 
     public static void connectButtonClicked()
@@ -171,7 +174,6 @@ public class Client {
 
 	public static void sendForfeit() {
 		try {
-			System.out.println("e");
 			if (out != null)
 				out.writeObject("forfeit");
 		}

@@ -42,7 +42,7 @@ public class View {
 				_buttonArray[i][j].setForeground(Color.BLACK);
 				if (((i-j)%2) == 0)
 				{
-					_buttonArray[i][j].setBackground(Color.CYAN);
+					_buttonArray[i][j].setBackground(Color.BLACK);
 				}
 				else
 				{
