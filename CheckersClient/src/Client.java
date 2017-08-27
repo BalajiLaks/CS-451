@@ -110,7 +110,7 @@ public class Client {
 
     public static void setStatus(char color, char turn) {
     	String playerColor = color == 'b' ? "black" : "red";
-		String turnColor = color == 'b' ? "black" : "red";
+		String turnColor = turn == 'b' ? "black" : "red";
 		view.changeStatus(String.format("You color: %s     Current turn: %s \n", playerColor, turnColor));
 	}
 
@@ -142,7 +142,7 @@ public class Client {
 	}
 
 	private static void clearMoveSequence() {
-		for (int i = 0; i < replaceColors.size(); i++) {
+		for (int i = replaceColors.size()-1; i >= 0; i--) {
 			Point p = points.get(i);
 			view.setPositionBGColor(p, replaceColors.get(i));
 		}

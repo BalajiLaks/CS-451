@@ -13,6 +13,7 @@ public class View {
 	private JPanel _container;
 	private JPanel _statusPanel;
 	private JPanel _panel;
+	private JButton _aboutButton;
 	private JButton _connectButton;
 	private JButton _submitMoveButton;
 	private JButton _clearButton;
@@ -26,6 +27,7 @@ public class View {
 		_panel = new JPanel();
 		_container = new JPanel();
 		_statusPanel = new JPanel();
+		_aboutButton = new JButton("About");
 		_connectButton = new JButton("Connect");
 		_submitMoveButton = new JButton("Submit Move");
 		_clearButton = new JButton("Clear Move");
@@ -59,7 +61,9 @@ public class View {
 		//set the top part of the UI
 		_container.setLayout(new BoxLayout(_container, BoxLayout.Y_AXIS));
 		_connectButton.setFocusPainted(false);
+		_aboutButton.setFocusPainted(false);
 
+		_aboutButton.addActionListener(e -> aboutButtonClicked());
 		_connectButton.addActionListener(e -> Client.connectButtonClicked());
 		_clearButton.addActionListener(e -> Client.clearButtonClicked());
 		_submitMoveButton.addActionListener(e -> Client.submitButtonClicked());
@@ -68,6 +72,7 @@ public class View {
 		_statusPanel.add(_statusLabel);
 		_statusPanel.add(_submitMoveButton);
 		_statusPanel.add(_clearButton);
+		_statusPanel.add(_aboutButton);
 		_container.add(_statusPanel);
 
 		_panel.setLayout(new GridLayout(8, 8));
@@ -130,9 +135,27 @@ public class View {
 							System.out.println(ex);
 						}
 						break;
+					case 'R':
+						try {
+							Image img = ImageIO.read(getClass().getResource("Images/redking piece.jpg"));
+							img = img.getScaledInstance(50,50,Image.SCALE_DEFAULT);
+							_buttonArray[i][j].setIcon(new ImageIcon(img));
+						} catch (Exception ex) {
+							System.out.println(ex);
+						}
+						break;
 					case 'b':
 						try {
 							Image img = ImageIO.read(getClass().getResource("Images/black piece.jpg"));
+							img = img.getScaledInstance(50,50,Image.SCALE_DEFAULT);
+							_buttonArray[i][j].setIcon(new ImageIcon(img));
+						} catch (Exception ex) {
+							System.out.println(ex);
+						}
+						break;
+					case 'B':
+						try {
+							Image img = ImageIO.read(getClass().getResource("Images/blackking piece.jpg"));
 							img = img.getScaledInstance(50,50,Image.SCALE_DEFAULT);
 							_buttonArray[i][j].setIcon(new ImageIcon(img));
 						} catch (Exception ex) {
@@ -170,6 +193,16 @@ public class View {
 	{
 		this._submitMoveButton.setVisible(true);
 		this._clearButton.setVisible(true);
+	}
+
+	public void aboutButtonClicked()
+	{
+		JOptionPane.showMessageDialog(_frame,
+				"Release 5.1\n" +
+						"\nWhat's New:\n" +
+						"    Added functionality to handle disconnections from game.\n",
+				"About",
+				JOptionPane.PLAIN_MESSAGE);
 	}
 
 	//change status of the UI at the top
