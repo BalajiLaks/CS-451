@@ -65,7 +65,7 @@ public class Client {
 						}
 						else if (obj.getClass() == Board.class) {
 							board = (Board) obj;
-
+							view.showHelpButton();
 							if (board.isWon()) {
 								view.showMessage(board.getWinner() + " won", "Game Over");
 								view.hideMoveButtons();
@@ -171,9 +171,11 @@ public class Client {
 	}
 
 	public static void aboutButtonClicked() {
-		view.showMessage("Release 5.1\n"
+		view.showMessage("v1.5 Final Release\n"
 						+ "\nWhat's New:\n"
-						+ "    Added functionality to handle disconnections from game.\n",
+						+ " -   fixed: missing king piece graphic\n"
+						+ " -   fixed: highlighting not getting removed when board is double clicked\n"
+						+ " -   fixed: help menu getting removed after first turn\n",
 				"About");
 	}
 
