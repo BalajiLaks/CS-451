@@ -34,7 +34,7 @@ public class Client {
 					view.hideAboutButton();
 					view.hideConnectButton();
 					view.showHelpButton();
-					Socket socket = new Socket("localhost", 1234);
+					Socket socket = new Socket("18.220.201.61", 1234);
 					out = new ObjectOutputStream(socket.getOutputStream());
 					in = new ObjectInputStream(socket.getInputStream());
 
