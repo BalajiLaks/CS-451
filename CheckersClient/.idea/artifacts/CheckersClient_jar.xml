@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CheckersClient:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CheckersClient_jar</output-path>
+    <root id="archive" name="CheckersClient.jar">
+      <element id="module-output" name="CheckersClient" />
+    </root>
+  </artifact>
+</component>
