@@ -17,6 +17,7 @@ public class View {
 	private JButton _connectButton;
 	private JButton _submitMoveButton;
 	private JButton _clearButton;
+	private JButton _helpButton;
 	private JLabel _statusLabel;
 	private JButton[][] _buttonArray;
 
@@ -31,6 +32,7 @@ public class View {
 		_connectButton = new JButton("Connect");
 		_submitMoveButton = new JButton("Submit Move");
 		_clearButton = new JButton("Clear Move");
+		_helpButton = new JButton("Help");
 		_statusLabel = new JLabel("");
 
 		//set up the board
@@ -63,16 +65,18 @@ public class View {
 		_connectButton.setFocusPainted(false);
 		_aboutButton.setFocusPainted(false);
 
-		_aboutButton.addActionListener(e -> aboutButtonClicked());
+		_aboutButton.addActionListener(e -> Client.aboutButtonClicked());
 		_connectButton.addActionListener(e -> Client.connectButtonClicked());
 		_clearButton.addActionListener(e -> Client.clearButtonClicked());
 		_submitMoveButton.addActionListener(e -> Client.submitButtonClicked());
+		_helpButton.addActionListener(e -> Client.helpButtonClicked());
 
 		_statusPanel.add(_connectButton);
 		_statusPanel.add(_statusLabel);
 		_statusPanel.add(_submitMoveButton);
 		_statusPanel.add(_clearButton);
 		_statusPanel.add(_aboutButton);
+		_statusPanel.add(_helpButton);
 		_container.add(_statusPanel);
 
 		_panel.setLayout(new GridLayout(8, 8));
@@ -195,15 +199,38 @@ public class View {
 		this._clearButton.setVisible(true);
 	}
 
-	public void aboutButtonClicked()
-	{
-		JOptionPane.showMessageDialog(_frame,
-				"Release 5.1\n" +
-						"\nWhat's New:\n" +
-						"    Added functionality to handle disconnections from game.\n",
-				"About",
-				JOptionPane.PLAIN_MESSAGE);
+	public void hideAboutButton() {
+		this._aboutButton.setVisible(false);
+		this._aboutButton.setVisible(false);
 	}
+
+	public void showAboutButton() {
+		this._aboutButton.setVisible(true);
+		this._aboutButton.setVisible(true);
+	}
+
+	public void hideHelpButton() {
+		this._helpButton.setVisible(false);
+		this._helpButton.setVisible(false);
+	}
+
+
+	public void showHelpButton() {
+		this._helpButton.setVisible(true);
+		this._helpButton.setVisible(true);
+	}
+
+	public void hideClearButton() {
+		this._clearButton.setVisible(false);
+		this._clearButton.setVisible(false);
+	}
+
+
+	public void showClearButton() {
+		this._clearButton.setVisible(true);
+		this._clearButton.setVisible(true);
+	}
+
 
 	//change status of the UI at the top
 	public void changeStatus(String status)
@@ -211,7 +238,8 @@ public class View {
 		_statusLabel.setText(status);
 	}
 
-	public void showMessage(String s) {
-		JOptionPane.showMessageDialog(null, s);
+	public void showMessage(String s, String title) {
+		JOptionPane.showMessageDialog(_frame, s, title, JOptionPane.PLAIN_MESSAGE);
 	}
+
 }

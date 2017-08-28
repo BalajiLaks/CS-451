@@ -23,6 +23,7 @@ public class Client {
     {
         view = new View();
         view.hideMoveButtons();
+        view.hideHelpButton();
     }
 
 	static Thread runGame() {
@@ -30,7 +31,9 @@ public class Client {
 			@Override
 			public void run() {
 				try {
+					view.hideAboutButton();
 					view.hideConnectButton();
+					view.showHelpButton();
 					Socket socket = new Socket("localhost", 1234);
 					out = new ObjectOutputStream(socket.getOutputStream());
 					in = new ObjectInputStream(socket.getInputStream());
@@ -40,6 +43,7 @@ public class Client {
 					while (!hasQuit) {
 						Object obj = (Object) in.readObject();
 						if (obj.getClass() == String.class) {
+							view.hideHelpButton();
 							String s = (String) obj;
 							if (s.equals("waitscreen")) {
 								color = 'r';
@@ -48,10 +52,11 @@ public class Client {
 							else if (s.equals(("forfeit"))) {
 								board.reset();
 								view.updateView(board);
-								view.showMessage("Other player forfeited");
+								view.showMessage("Other player forfeited", "Game Over");
 								view.hideMoveButtons();
 								view.changeStatus("");
 								view.showConnectButton();
+								view.showAboutButton();
 								break;
 							}
 							else if (s.equals("ping")) {
@@ -62,10 +67,11 @@ public class Client {
 							board = (Board) obj;
 
 							if (board.isWon()) {
-								view.showMessage(board.getWinner() + " won");
+								view.showMessage(board.getWinner() + " won", "Game Over");
 								view.hideMoveButtons();
 								view.changeStatus("");
 								view.showConnectButton();
+								view.showAboutButton();
 								board.reset();
 								break;
 							}
@@ -79,7 +85,7 @@ public class Client {
 									if (moves.size() != 0) {
 										MoveSequence moveSeq = new MoveSequence(getMoves());
 										if (!board.isValidMoveSequence(moveSeq)) {
-											view.showMessage("Invalid move");
+											view.showMessage("Invalid move", "Move Error");
 											clearMoveSequence();
 										}
 										else {
@@ -101,7 +107,8 @@ public class Client {
 				}
 				catch (Exception e) {
 					e.printStackTrace();
-					view.changeStatus("Cannot connect to game at this time.");
+					view.changeStatus("Cannot connect to game at this time");
+					view.showConnectButton();
 				}
 
 			}
@@ -124,7 +131,7 @@ public class Client {
 		//send the list of Moves to server
 		if (points.size() < 2)
 		{
-			view.showMessage("Invalid Move");
+			view.showMessage("Invalid Move", "Move Error");
 			clearMoveSequence();
 		}
 		else
@@ -149,6 +156,25 @@ public class Client {
 		replaceColors.clear();
 		moves.clear();
 		points.clear();
+	}
+
+	public static void helpButtonClicked() {
+		view.showMessage("To make a move, click the piece you want to move followed\n"
+						+ "by all the positions you want to move to. These positions\n"
+						+ "will be highlighted on the board in green. When you are \n"
+						+ "done making your move press the submit button. If it is a \n "
+						+ "valid move the board will update and the turn will change. \n"
+						+ "If it is an invalid move, you will be notified that the move\n"
+						+ "is invalid and allowed to submit another turn. To clear your \n"
+						+ "move after highlighting positions press the clear buttton\n", "Help");
+
+	}
+
+	public static void aboutButtonClicked() {
+		view.showMessage("Release 5.1\n"
+						+ "\nWhat's New:\n"
+						+ "    Added functionality to handle disconnections from game.\n",
+				"About");
 	}
 
 	public static void clearButtonClicked() {
@@ -181,4 +207,6 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
+
+
 }
